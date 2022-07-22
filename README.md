@@ -1,2 +1,2 @@
 # LiveSignTranslator
-A live American Sign Language gesture recognition and translation written in Python using Deep Learning via TensorFlow &amp; OpenCV
+Live American Sign Language gesture recognition and translation written in Python using Deep Learning via TensorFlow &amp; OpenCV
