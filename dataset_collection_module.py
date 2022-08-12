@@ -1,9 +1,8 @@
 import cv2
 import numpy as np
-import time
 import os
 from string import ascii_lowercase
-import action_detection_module as ad
+import ation_detection_module as ad
 
 
 class ModelTrainer():
@@ -37,7 +36,7 @@ def main():
     modelTrainer = ModelTrainer()
     modelTrainer.createDirectories()
     cap = cv2.VideoCapture(0)
-    holistic = ActionDetector(
+    holistic = ad.ActionDetector(
         min_detection_confidence=0.5, min_tracking_confidence=0.5)
     exit = False
 
