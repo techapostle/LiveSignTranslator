@@ -37,9 +37,10 @@ def main():
     exit = False
 
     for action in modelTrainer.actions:
+        
         # Loop through sequences aka videos
-        if exit:
-            break
+        start = False
+        
         for sequence in range(modelTrainer.start_folder, modelTrainer.start_folder+modelTrainer.no_sequences):
             if exit:
                 break
@@ -61,7 +62,7 @@ def main():
                                    ad.cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, ad.cv2.LINE_AA)
                     # Show to screen
                     ad.cv2.imshow('OpenCV Feed', image)
-                    ad.cv2.waitKey(500)
+                    ad.cv2.waitKey(2000)
                 else:
                     ad.cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15, 12),
                                    ad.cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, ad.cv2.LINE_AA)
@@ -77,6 +78,11 @@ def main():
                     exit = True
                     break
 
+        if exit:
+            break
+        while start == False:
+            if ad.cv2.waitKey(10) & 0xFF == ord('s'):
+                start = True
     cap.release()
     ad.cv2.destroyAllWindows()
 
