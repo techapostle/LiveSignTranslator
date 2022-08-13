@@ -1,4 +1,5 @@
-import action_detection_module as ad
+import numpy as np
+import os
 import dataset_collection_module as dc
 from sklearn.model_selection import train_test_split
 from tensorflow.keras.utils import to_categorical
@@ -17,21 +18,21 @@ class ModelTraining():
 
     def preprocessData(self):
         for action in self.modelTrainer.actions:
-            for sequence in ad.np.array(ad.os.listdir(ad.os.path.join(self.modelTrainer.DATA_PATH, action))).astype(int):
+            for sequence in np.array(os.listdir(os.path.join(self.modelTrainer.DATA_PATH, action))).astype(int):
                 window = []
                 for frame_num in range(self.modelTrainer.sequence_length):
-                    res = ad.np.load(ad.os.path.join(self.modelTrainer.DATA_PATH, action, str(sequence), "{}.npy".format(frame_num)))
+                    res = np.load(os.path.join(self.modelTrainer.DATA_PATH, action, str(sequence), "{}.npy".format(frame_num)))
                     window.append(res)
                 self.sequences.append(window)
                 self.labels.append(self.label_map[action])
     
     def createLabelsAndFeatures(self):
-        X = ad.np.array(self.sequences)
+        X = np.array(self.sequences)
         y = to_categorical(self.labels).astype(int)
         self.X_train, self.X_test, self.y_train, self.y_test = train_test_split(X, y, test_size=0.05)
 
     def setupTensorBoard(self):
-        log_dir = ad.os.path.join('Logs')
+        log_dir = os.path.join('Logs')
         self.tb_callback = TensorBoard(log_dir=log_dir)
 
     def setupLSTM(self):
