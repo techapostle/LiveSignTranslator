@@ -1,16 +1,19 @@
+import cv2
+import numpy as np
+import os
 from string import ascii_lowercase
 import action_detection_module as ad
 
 class DataCollector():
     def __init__(self) -> None:
-        self.DATA_PATH = ad.os.path.join('MP_Data')
+        self.DATA_PATH = os.path.join('MP_Data')
         arr = []
         for i in range(0, 10):
             arr.append(str(i))
         for c in ascii_lowercase:
             arr.append(c)
         # Actions that we try to detect
-        self.actions = ad.np.array(arr)
+        self.actions = np.array(arr)
         # Thirty videos worth of data
         self.no_sequences = 30
         # Videos are going to be 30 frames in length
@@ -22,7 +25,7 @@ class DataCollector():
         for action in self.actions:
             for sequence in range(1, self.no_sequences+1):
                 try:
-                    ad.os.makedirs(ad.os.path.join(
+                    os.makedirs(os.path.join(
                         self.DATA_PATH, action, str(sequence)))
                 except:
                     pass
@@ -31,7 +34,7 @@ class DataCollector():
 def main():
     modelTrainer = DataCollector()
     modelTrainer.createDirectories()
-    cap = ad.cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(0)
     holistic = ad.ActionDetector(
         min_detection_confidence=0.5, min_tracking_confidence=0.5)
     exit = False
@@ -80,14 +83,14 @@ def main():
                     if ad.cv2.waitKey(10) & 0xFF == ord('q'):
                         exit = True
                         break
+        if exit:
+            break
+        while start == False:
+            if cv2.waitKey(10) & 0xFF == ord('s'):
+                start = True
 
-            if exit:
-                break
-            while start == False:
-                if ad.cv2.waitKey(10) & 0xFF == ord('s'):
-                    start = True
     cap.release()
-    ad.cv2.destroyAllWindows()
+    cv2.destroyAllWindows()
 
 
 # main()
