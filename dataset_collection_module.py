@@ -1,7 +1,7 @@
 from string import ascii_lowercase
 import action_detection_module as ad
 
-class ModelTrainer():
+class DataCollector():
     def __init__(self) -> None:
         self.DATA_PATH = ad.os.path.join('MP_Data')
         arr = []
@@ -29,7 +29,7 @@ class ModelTrainer():
 
 
 def main():
-    modelTrainer = ModelTrainer()
+    modelTrainer = DataCollector()
     modelTrainer.createDirectories()
     cap = ad.cv2.VideoCapture(0)
     holistic = ad.ActionDetector(
@@ -65,7 +65,7 @@ def main():
                                     ad.cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, ad.cv2.LINE_AA)
                         # Show to screen
                         ad.cv2.imshow('OpenCV Feed', image)
-                        ad.cv2.waitKey(10)
+                        ad.cv2.waitKey(2000)
                     else:
                         ad.cv2.putText(image, 'Collecting frames for {} Video Number {}'.format(action, sequence), (15, 12),
                                     ad.cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 1, ad.cv2.LINE_AA)
@@ -90,4 +90,4 @@ def main():
     ad.cv2.destroyAllWindows()
 
 
-main()
+# main()
