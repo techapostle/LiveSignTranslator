@@ -34,9 +34,8 @@ class ActionDetector():
         return frame, results
 
     def draw_landmarks(self, image, results):
-        self.mp_drawing.draw_landmarks(image, results.face_landmarks, self.mp_holistic.FACEMESH_CONTOURS) # Draw face connections
-        # Can also use FACEMESH_TESSELATION instead as shown below
-        # mp_drawing.draw_landmarks(image, results.face_landmarks, mp_holistic.FACEMESH_TESSELATION) # Draw face connections
+        self.mp_drawing.draw_landmarks(image, results.face_landmarks, self.mp_holistic.FACEMESH_CONTOURS)
+        self.mp_drawing.draw_landmarks(image, results.face_landmarks, self.mp_holistic.FACEMESH_TESSELATION) # Draw face connections
         self.mp_drawing.draw_landmarks(image, results.pose_landmarks, self.mp_holistic.POSE_CONNECTIONS) # Draw pose connections
         self.mp_drawing.draw_landmarks(image, results.left_hand_landmarks, self.mp_holistic.HAND_CONNECTIONS) # Draw left hand connections
         self.mp_drawing.draw_landmarks(image, results.right_hand_landmarks, self.mp_holistic.HAND_CONNECTIONS) # Draw right hand connections
@@ -64,6 +63,10 @@ class ActionDetector():
                                  )
 
     def extract_landmarks(self, results):
+        pose = []
+        # for res in results.pose_landmarks.landmark:
+        #     test = np.array([res.x, res.y, res.z, res.visibility])
+        #     pose.append(test)
         # Extract face, pose, left hand, and right hand landmarks into separate arrays called face, pose, left_hand, and right_hand.
         # If there are no landmarks detected, then the arrays will be populated with 0s to the length of their respective number of landmarks.
         pose = np.array([[res.x, res.y, res.z, res.visibility] for res in results.pose_landmarks.landmark]).flatten() if results.pose_landmarks else np.zeros(132)
@@ -108,6 +111,7 @@ def main():
 
         # Extract landmarks
         # landmarks = holistic.extract_landmarks(results).shape()
+        print(holistic.extract_landmarks(results))
 
         # record FPS
         curr_time = time.time()
